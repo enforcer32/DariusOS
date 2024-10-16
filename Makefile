@@ -13,15 +13,21 @@ LIBDIR	=
 BUILDDIR  = Build
 BOOTDIR   = Kernel/Boot
 KERNELDIR = Kernel
+NXNDIR = Kernel/NXN
+DRIVERSDIR = Kernel/Drivers
 
 include $(BOOTDIR)/make.config
 include $(KERNELDIR)/make.config
+include $(NXNDIR)/make.config
+include $(DRIVERSDIR)/make.config
 
 CFLAGS 	:= $(CPPFLAGS) $(LIBDIR)
 
 OBJS=\
 $(BOOT_OBJS) \
 $(KERNEL_OBJS) \
+$(NXN_OBJS) \
+$(DRIVERS_OBJS) \
 
 OBJS_OUT := $(foreach item,$(OBJS),$(BUILDDIR)/$(item))
 
