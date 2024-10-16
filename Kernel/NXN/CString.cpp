@@ -11,6 +11,16 @@ namespace Kernel
 			return len;
 		}
 
+		void Strrev(char* str, size_t num)
+		{
+			for (size_t i = 0; i < num / 2; i++)
+			{
+				char tmp = str[i];
+				str[i] = str[num - 1 - i];
+				str[num - 1 - i] = tmp;
+			}
+		}
+
 		void* Memset(void* dst, int32_t ch, size_t num)
 		{
 			uint8_t* p1 = (uint8_t*)dst;
@@ -40,7 +50,8 @@ namespace Kernel
 		{
 			const uint8_t* p1 = (uint8_t*)src1;
 			const uint8_t* p2 = (uint8_t*)src2;
-			for (size_t i = 0; i < num; i++, p1++, p2++) {
+			for (size_t i = 0; i < num; i++, p1++, p2++)
+			{
 				if (*p1 < *p2)
 					return -1;
 				else if (*p1 > *p2)
