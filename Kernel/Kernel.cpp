@@ -7,6 +7,7 @@ namespace Kernel
 		Drivers::VGA::Init();
 		Drivers::VGA::ClearScreen();
 		Drivers::VGA::WriteStr("DariusOS!\n");
+		Drivers::VGA::WriteStr("32-bit Operating System!");
 	}
 }
 

@@ -37,6 +37,11 @@ namespace Kernel
 			VGAColor GetColor();
 			void SetColor(VGAColor color);
 			void ScrollDown();
+
+			void EnableCursor();
+			void DisableCursor();
+			void SetCursor(uint16_t offset);
+			uint16_t GetCursor();
 		}
 	}
 }
