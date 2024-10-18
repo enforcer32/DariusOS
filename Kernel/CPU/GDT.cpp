@@ -66,11 +66,6 @@ namespace Kernel
 				s_GDT[seg].Granularity |= (gran & 0xF0); // Toggle first two bits of flags. (b1 = Granularity, b2=32bit pm segment, b3,4=AVL)
 				s_GDT[seg].Access = access; // Present, Privilege, Type Flags
 			}
-
-			void Reload()
-			{
-				GDTLoad(&s_GDTR);
-			}
 		}
 	}
 }

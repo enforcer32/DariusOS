@@ -26,7 +26,6 @@ namespace Kernel
 
 			int32_t Init();
 			void SetGate(uint32_t seg, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
-			void Reload();
 		}
 	}
 }
