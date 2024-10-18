@@ -3,10 +3,17 @@
 #include <Kernel/Kern/KPanic.h>
 #include <Kernel/CPU/GDT.h>
 #include <Kernel/CPU/IDT.h>
+#include <Kernel/CPU/PIC.h>
 #include <Kernel/Interrupts/Interrupt.h>
+#include <Kernel/Interrupts/IRQ.h>
 
 namespace Kernel
 {
+	void SimpleIRQ(const Interrupts::InterruptFrame* frame)
+	{
+		KPrintf("Called IRQ: %d\n", frame->InterruptNumber - 32);
+	}
+
 	void InitKernel()
 	{
 		Drivers::VGA::Init();
@@ -15,16 +22,22 @@ namespace Kernel
 		if (CPU::GDT::Init() != 0)
 			KPanic("Failed To Initialize GDT\n");
 
-		Interrupts::DisableInterrupts();
-
 		if (CPU::IDT::Init() != 0)
 			KPanic("Failed to Initialize IDT\n");
 
-		//Interrupts::EnableInterrupts();
+		if (CPU::PIC::Init() != 0)
+			KPanic("Failed to Initialize PIC\n");
 
-		//int y = 0;
-		//int x = 10 / y;
-		//(void)x;
+		// SIMPLE IRQ - Map Keyboard IRQ to SimpleIRQ
+		Interrupts::IRQInstallHandler(0, SimpleIRQ);
+
+		Interrupts::EnableInterrupts();
+
+		/*
+		int y = 0;
+		int x = 10 / y;
+		(void)x;
+		*/
 
 		KPrintf("DariusOS!\n");
 	}

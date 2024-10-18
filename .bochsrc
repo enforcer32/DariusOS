@@ -1,0 +1,6 @@
+romimage: file=/usr/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+floppya: 1_44=Build/DariusOS.bin, status=inserted
+boot: a
+floppy_bootsig_check: disabled=1
+display_library: x, options = "gui_debug"

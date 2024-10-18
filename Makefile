@@ -13,11 +13,15 @@ LIBDIR	=
 BUILDDIR  = Build
 BOOTDIR   = Kernel/Boot
 KERNELDIR = Kernel
+CPUDIR = Kernel/CPU
+INTERRUPTSDIR = Kernel/Interrupts
 NXNDIR = Kernel/NXN
 DRIVERSDIR = Kernel/Drivers
 
 include $(BOOTDIR)/make.config
 include $(KERNELDIR)/make.config
+include $(CPUDIR)/make.config
+include $(INTERRUPTSDIR)/make.config
 include $(NXNDIR)/make.config
 include $(DRIVERSDIR)/make.config
 
@@ -26,6 +30,8 @@ CFLAGS 	:= $(CPPFLAGS) $(LIBDIR)
 OBJS=\
 $(BOOT_OBJS) \
 $(KERNEL_OBJS) \
+$(CPU_OBJS) \
+$(INTERRUPTS_OBJS) \
 $(NXN_OBJS) \
 $(DRIVERS_OBJS) \
 

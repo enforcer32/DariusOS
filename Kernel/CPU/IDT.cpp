@@ -1,5 +1,7 @@
 #include <Kernel/CPU/IDT.h>
 #include <Kernel/Kern/KPrintf.h>
+#include <Kernel/Interrupts/ISR.h>
+#include <Kernel/Interrupts/IRQ.h>
 
 #define IDT_TOTAL_INTERRUPTS 256
 
@@ -20,6 +22,9 @@ namespace Kernel
 
 				s_IDTR.Limit = sizeof(s_IDT) - 1;
 				s_IDTR.Base = (uint32_t)s_IDT;
+				
+				Interrupts::ISRInstall();
+				Interrupts::IRQInstall();
 
 				IDTLoad(&s_IDTR);
 				return 0;
