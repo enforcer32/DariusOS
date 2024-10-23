@@ -11,12 +11,18 @@ INCLUDES = -I.
 
 LIBDIR	= 
 
-BUILD_DIR  		= Build
-BOOTLOADER_DIR   = Bootloader
+BUILD_DIR		= Build
+BOOTLOADER_DIR	= Bootloader
 KERNEL_DIR 		= Kernel
+ARCH_DIR 		= Kernel/Arch
+NXN_DIR 		= Kernel/NXN
+DRIVERS_DIR 	= Kernel/Drivers
 
 include $(BOOTLOADER_DIR)/make.config
 include $(KERNEL_DIR)/make.config
+include $(ARCH_DIR)/make.config
+include $(NXN_DIR)/make.config
+include $(DRIVERS_DIR)/make.config
 
 CFLAGS 	:= $(CPPFLAGS) $(LIBDIR)
 
@@ -25,6 +31,9 @@ $(BOOTLOADER_OBJS) \
 
 KRNL_OBJS=\
 $(KERNEL_OBJS) \
+$(ARCH_OBJS) \
+$(NXN_OBJS) \
+$(DRIVERS_OBJS) \
 
 BL_OBJS_OUT := $(foreach item,$(BL_OBJS),$(BUILD_DIR)/$(item))
 KRNL_OBJS_OUT := $(foreach item,$(KRNL_OBJS),$(BUILD_DIR)/$(item))
@@ -36,7 +45,7 @@ all: $(BOOTLOADER_BIN) $(KERNEL_BIN)
 
 $(BOOTLOADER_BIN): $(BL_OBJS) $(BOOTLOADER_DIR)/linker.ld
 	$(ASM) -f bin $(BOOTLOADER_DIR)/Bootsector.asm -o $(BUILD_DIR)/$(BOOTLOADER_DIR)/Bootsector.bin
-	$(LD) $(LDFLAGS) $(BL_OBJS_OUT) -o $(BUILD_DIR)/$(BOOTLOADER_DIR)/BootloaderObject.o
+	$(LD) $(LDFLAGS) $(BL_OBJS_OUT) -o $(BUILD_DIR)/$(BOOTLOADER_DIR)/BootloaderObject.o -Map=$(BUILD_DIR)/$(BOOTLOADER_DIR)/BootloaderObject.map
 	$(CC) -T $(BOOTLOADER_DIR)/linker.ld -o $(BUILD_DIR)/$(BOOTLOADER_DIR)/BootloaderLinked.bin $(CPPFLAGS) $(BUILD_DIR)/$(BOOTLOADER_DIR)/BootloaderObject.o $(LIBS)
 
 	rm -rf $(BUILD_DIR)/$(BOOTLOADER_BIN)
@@ -45,7 +54,7 @@ $(BOOTLOADER_BIN): $(BL_OBJS) $(BOOTLOADER_DIR)/linker.ld
 	dd if=/dev/zero bs=512 count=100 >> $(BUILD_DIR)/$(BOOTLOADER_BIN)
 
 $(KERNEL_BIN): $(KRNL_OBJS) $(KERNEL_DIR)/linker.ld
-	$(LD) $(LDFLAGS) $(KRNL_OBJS_OUT) -o $(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.o
+	$(LD) $(LDFLAGS) $(KRNL_OBJS_OUT) -o $(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.o -Map=$(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.map
 	$(CC) -T $(KERNEL_DIR)/linker.ld -o $(BUILD_DIR)/$(KERNEL_DIR)/KernelLinked.bin $(CPPFLAGS) $(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.o $(LIBS)
 
 	rm -rf $(BUILD_DIR)/$(KERNEL_BIN)
