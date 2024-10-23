@@ -1,5 +1,6 @@
 #include <Kernel/Arch/x86/IDT.h>
 #include <Kernel/NXN/KPrintf.h>
+#include <Kernel/Arch/x86/ISR.h>
 
 namespace Kernel
 {
@@ -16,6 +17,8 @@ namespace Kernel
 
 			s_IDTR.Limit = sizeof(s_IDT) - 1;
 			s_IDTR.Base = (uint32_t)s_IDT;
+
+			ISRInstall();
 			
 			IDTLoad(&s_IDTR);
 			return 0;

@@ -14,6 +14,10 @@ namespace Kernel
 		if(x86::Processor::Init() != 0)
 			KPanic("Failed to Initialize x86 Processor!\n");
 
+		int x = 0;
+		int y = 10 / x;
+		(void)y;
+
 		KPrintf("Darius Operating System\n");
 	}
 }
