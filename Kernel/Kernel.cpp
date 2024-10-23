@@ -1,5 +1,7 @@
 #include <Bootloader/BootInfo.h>
 #include <Kernel/Drivers/Graphics/VGA.h>
+#include <Kernel/NXN/KPrintf.h>
+#include <Kernel/NXN/KPanic.h>
 
 namespace Kernel
 {
@@ -8,7 +10,8 @@ namespace Kernel
 		Graphics::VGA::Init();
 		Graphics::VGA::ClearScreen();
 
-		Graphics::VGA::WriteStr("Darius Operating System");
+		KPrintf("Darius Operating System\n");
+		KPanic("Panic!!!!!");
 	}
 }
 
