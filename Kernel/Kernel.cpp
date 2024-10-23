@@ -2,6 +2,7 @@
 #include <Kernel/Drivers/Graphics/VGA.h>
 #include <Kernel/NXN/KPrintf.h>
 #include <Kernel/NXN/KPanic.h>
+#include <Kernel/Arch/x86/Processor.h>
 
 namespace Kernel
 {
@@ -10,8 +11,10 @@ namespace Kernel
 		Graphics::VGA::Init();
 		Graphics::VGA::ClearScreen();
 
+		if(x86::Processor::Init() != 0)
+			KPanic("Failed to Initialize x86 Processor!\n");
+
 		KPrintf("Darius Operating System\n");
-		KPanic("Panic!!!!!");
 	}
 }
 

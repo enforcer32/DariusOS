@@ -51,13 +51,13 @@ namespace Kernel
 			DisableCursor();
 			EnableCursor();
 
-			WriteStr("Initialized VGA...");
+			WriteStr("Initialized VGA...\n");
 			return 0;
 		}
 
 		void VGA::Shutdown()
 		{
-			WriteStr("VGA Shutting Down....");
+			WriteStr("VGA Shutting Down....\n");
 		}
 
 		void VGA::ClearScreen()
