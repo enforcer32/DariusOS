@@ -1,8 +1,6 @@
 #pragma once
 
-#include <Kernel/NXN/Types.h>
-
-#define GDT_TOTAL_SEGMENTS 5
+#include <Kernel/Arch/x86/Processor.h>
 
 namespace Kernel
 {
@@ -32,7 +30,7 @@ namespace Kernel
 
 		private:
 			static GDTRDesc s_GDTR;
-			static GDTDesc s_GDT[GDT_TOTAL_SEGMENTS];
+			static GDTDesc s_GDT[x86_GDT_TOTAL_SEGMENTS];
 		};
 	}
 }

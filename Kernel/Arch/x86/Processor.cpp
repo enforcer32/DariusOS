@@ -2,6 +2,7 @@
 #include <Kernel/NXN/KPrintf.h>
 #include <Kernel/NXN/KPanic.h>
 #include <Kernel/Arch/x86/GDT.h>
+#include <Kernel/Arch/x86/IDT.h>
 
 namespace Kernel
 {
@@ -15,6 +16,9 @@ namespace Kernel
 
 				if (GDT::Init() != 0)
 					KPanic("Failed To Initialize GDT\n");
+
+				if (IDT::Init() != 0)
+					KPanic("Failed to Initialize IDT\n");
 
 				return 0;
 			}

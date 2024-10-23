@@ -6,7 +6,7 @@ namespace Kernel
 	namespace x86
 	{
 		GDTRDesc GDT::s_GDTR;
-		GDTDesc GDT::s_GDT[GDT_TOTAL_SEGMENTS]{};
+		GDTDesc GDT::s_GDT[x86_GDT_TOTAL_SEGMENTS]{};
 
 		extern "C" void GDTLoad(GDTRDesc * gdtr);
 
