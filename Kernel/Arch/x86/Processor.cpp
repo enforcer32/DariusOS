@@ -3,6 +3,7 @@
 #include <Kernel/NXN/KPanic.h>
 #include <Kernel/Arch/x86/GDT.h>
 #include <Kernel/Arch/x86/IDT.h>
+#include <Kernel/Arch/x86/PIC8259.h>
 
 namespace Kernel
 {
@@ -19,6 +20,9 @@ namespace Kernel
 
 				if (IDT::Init() != 0)
 					KPanic("Failed to Initialize IDT\n");
+
+				if (PIC8259::Init() != 0)
+					KPanic("Failed to Initialize PIC\n");
 
 				return 0;
 			}
