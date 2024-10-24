@@ -16,12 +16,13 @@ namespace Bootloader
 		info->Letter = 'O';
 		info->KernelAddress = (uint32_t*)0x00100000;
 
-		Bootloader::Drivers::ATA::ATAReadLBA((uint32_t*)0x00100000, Drivers::ATA::ATADrive::Slave, 100, 0);
+		// JUNK REMINDER // Cant Offset Elf Header, Code Section
+		Bootloader::Drivers::ATA::ATAReadLBA((uint32_t*)(0x00100000-0x34-0x001000), Drivers::ATA::ATADrive::Slave, 100, 0);
 
 		VGA[1] = VGA_TEXT_ENCODE('L', 2);
 		VGA[2] = VGA_TEXT_ENCODE('-', 2);
 
-		KernelEntry _kernelstart = (KernelEntry)0x00100000;
+		KernelEntry _kernelstart = (KernelEntry)(0x00100000);
 		_kernelstart(info);
 
 	}

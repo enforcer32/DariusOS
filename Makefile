@@ -3,7 +3,7 @@ LD = i686-elf-ld
 ASM = nasm
 
 BOOTLOADER_BIN = Bootloader.bin
-KERNEL_BIN = Kernel.bin
+KERNEL_BIN = Kernel.elf
 CPPFLAGS  := -g -ffreestanding -nostdlib -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -O0 -falign-jumps -falign-functions -falign-labels -fomit-frame-pointer -finline-functions -falign-loops -fstrength-reduce -Wno-unused-function -Wno-unused-parameter -fno-builtin -Wno-unused-label -Wno-cpp -fno-rtti -fno-exceptions -Iinc
 LDFLAGS := -g -relocatable
 LIBS 	:= 
@@ -55,10 +55,10 @@ $(BOOTLOADER_BIN): $(BL_OBJS) $(BOOTLOADER_DIR)/linker.ld
 
 $(KERNEL_BIN): $(KRNL_OBJS) $(KERNEL_DIR)/linker.ld
 	$(LD) $(LDFLAGS) $(KRNL_OBJS_OUT) -o $(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.o -Map=$(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.map
-	$(CC) -T $(KERNEL_DIR)/linker.ld -o $(BUILD_DIR)/$(KERNEL_DIR)/KernelLinked.bin $(CPPFLAGS) $(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.o $(LIBS)
+	$(CC) -T $(KERNEL_DIR)/linker.ld -o $(BUILD_DIR)/$(KERNEL_DIR)/KernelLinked.elf $(CPPFLAGS) $(BUILD_DIR)/$(KERNEL_DIR)/KernelObject.o $(LIBS)
 
 	rm -rf $(BUILD_DIR)/$(KERNEL_BIN)
-	dd if=$(BUILD_DIR)/$(KERNEL_DIR)/KernelLinked.bin >> $(BUILD_DIR)/$(KERNEL_BIN)
+	dd if=$(BUILD_DIR)/$(KERNEL_DIR)/KernelLinked.elf >> $(BUILD_DIR)/$(KERNEL_BIN)
 	dd if=/dev/zero bs=512 count=100 >> $(BUILD_DIR)/$(KERNEL_BIN)
 
 .cpp.o:
@@ -81,7 +81,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 run:
-	qemu-system-i386 -hda $(BUILD_DIR)/$(BOOTLOADER_BIN) -hdb $(BUILD_DIR)/$(KERNEL_BIN)
+	qemu-system-i386 -d int,cpu_reset -no-reboot -no-shutdown -hda $(BUILD_DIR)/$(BOOTLOADER_BIN) -hdb $(BUILD_DIR)/$(KERNEL_BIN)
 
 -include $(BL_OBJS:.o=.d)
 -include $(KRNL_OBJS:.o=.d)
